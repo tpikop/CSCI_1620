@@ -1,21 +1,28 @@
 import tkinter as tk
 from tkinter import messagebox
-
+from typing import Optional, Tuple
 
 class GUI:
     def __init__(self):
-        self.vote_result = None
+        self.vote_result: Optional[Tuple[str, str]] = None
 
-    def vote_menu(self):
+    def vote_menu(self) -> Optional[Tuple[str, str]]:
+        """Display the vote menu and return the user's vote result.
+
+        Returns:
+            Optional[Tuple[str, str]]: A tuple containing the user's name and vote option.
+                Returns None if the vote is invalid or the user cancels the operation.
+        """
         root = tk.Tk()
         root.title("VOTE MENU")
-        root.geometry("300x250")
+        root.geometry("300x150")
 
         name_var = tk.StringVar()
         option_var = tk.StringVar()
         self.vote_result = None
 
-        def vote():
+        def vote() -> None:
+            """Process the user's vote."""
             name = name_var.get().strip()
             option = option_var.get().strip().lower()
 
@@ -24,7 +31,7 @@ class GUI:
                     root.destroy()
                     self.vote_result = (name, option)
                 else:
-                    messagebox.showwarning("Invalid Option", "Invalid option (v/x): {}".format(option))
+                    messagebox.showwarning("Invalid Option", f"Invalid option (v/x): {option}")
                     self.vote_result = (name, 'invalid')  # Mark the vote as invalid
             else:
                 messagebox.showwarning("Missing Name", "Please enter a name.")
@@ -39,14 +46,21 @@ class GUI:
 
         return self.vote_result
 
-    def candidate_menu(self):
+    def candidate_menu(self) -> Optional[str]:
+        """Display the candidate menu and return the user's selected candidate.
+
+        Returns:
+            Optional[str]: A string representing the user's selected candidate.
+                Returns None if the user cancels the operation.
+        """
         root = tk.Tk()
         root.title("CANDIDATE MENU")
         root.geometry("300x150")
 
-        candidate_result = None
+        candidate_result = None  # Variable to store the candidate selection
 
-        def select_candidate(candidate):
+        def select_candidate(candidate: str) -> None:
+            """Process the user's selected candidate."""
             nonlocal candidate_result
             candidate_result = candidate
             root.destroy()
@@ -57,4 +71,3 @@ class GUI:
         root.mainloop()
 
         return candidate_result
-
